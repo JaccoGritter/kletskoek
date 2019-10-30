@@ -45,21 +45,27 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "SELECT * FROM users";
+    $sql = "SELECT * FROM users WHERE username LIKE '" . $_GET["username"] . "'";
+    
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
+            echo "<table class=\"table table-striped\">";
+
             // output data of each row
             while ($row = $result->fetch_assoc()) {
-                echo "<table>";
+                
                 echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
                 echo "<td>" . $row['username'] . "</td>";
                 echo "<td>" . $row['first_name'] . "</td>";
                 echo "<td>" . $row['last_name'] . "</td>";
+                echo "<td>" . $row['birth_date'] . "</td>";
                 echo "</tr>";
-                echo "</table>";
+                
             }
+            echo "</table>";
         } else {
-            echo "0 results";
+            echo "0 resultaten";
         }
         $conn->close();
         ?>
