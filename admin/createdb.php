@@ -11,14 +11,14 @@ if ($conn->connect_error) {
 }
 
 // Check if database exists
-$sql = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'KletsKoek';";
+$sql = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'kletskoek';";
 $result = $conn->query($sql);
 if ($result -> num_rows > 0) {
     echo "Database bestaat al!";
 } else {
     echo "Database bestaat nog niet.<br>";
     // Create database
-    $sql = "CREATE DATABASE IF NOT EXISTS KletsKoek;";
+    $sql = "CREATE DATABASE IF NOT EXISTS kletskoek;";
     if ($conn->query($sql) === TRUE) {
         echo "Database kletskoek created successfully <br>";
         // Create user table
