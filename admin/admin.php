@@ -29,9 +29,10 @@
         <b>Maak een keuze:</b>
         <br>
         <li><a href="createuser.php">Voeg gebruiker toe</a></li>
+        <li><a href="finduser.php">Zoek gebruiker</a></li>
         <li><a href="createdb.php">maak database aan</a></li>
         </ul>
 
     </div>
-    
+
 </body>
