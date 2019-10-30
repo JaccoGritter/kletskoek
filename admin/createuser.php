@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <div class="container">
-        <h1>Create User</h1>
+        <h1>Maak een gebruiker aan</h1>
         <br>
         <form action="" method="POST">
             <div class="form-group">
