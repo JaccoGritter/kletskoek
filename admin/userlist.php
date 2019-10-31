@@ -45,15 +45,19 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-    $sql = "SELECT * FROM users WHERE username LIKE '" . $_GET["username"] . "'";
-    
+        if ($_GET["username"] == "" && $_GET["first_name"] == "" && $_GET["last_name"] == "") {
+            $sql = "SELECT * FROM users";
+        } else {
+            $sql = "SELECT * FROM users WHERE username LIKE '" . $_GET["username"] . "' OR first_name LIKE '" . $_GET["first_name"] . "' OR last_name LIKE '" . $_GET["last_name"] . "' ";
+        }
+        var_dump($sql);
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             echo "<table class=\"table table-striped\">";
 
             // output data of each row
             while ($row = $result->fetch_assoc()) {
-                
+
                 echo "<tr>";
                 echo "<td>" . $row['id'] . "</td>";
                 echo "<td>" . $row['username'] . "</td>";
@@ -61,7 +65,6 @@
                 echo "<td>" . $row['last_name'] . "</td>";
                 echo "<td>" . $row['birth_date'] . "</td>";
                 echo "</tr>";
-                
             }
             echo "</table>";
         } else {
@@ -69,6 +72,7 @@
         }
         $conn->close();
         ?>
-
+        <a href="finduser.php" class="btn btn-info" role="button">Nieuwe zoekopdracht</a>
+        <a href="admin.php" class="btn btn-info" role="button">Terug naar admin pagina</a>
     </div>
 </body>
