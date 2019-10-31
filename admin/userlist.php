@@ -52,7 +52,9 @@
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             echo "<table class=\"table table-striped\">";
-
+            echo "<tr>
+            <th>ID</th><th>Username</th><th>Voornaam</th><th>Achternaam</th><th>Geb.datum</th><th></th>
+            </tr>";
             // output data of each row
             while ($row = $result->fetch_assoc()) {
 
