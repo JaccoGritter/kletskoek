@@ -46,7 +46,7 @@
         if ($username == "" && $first_name == "" && $last_name == "") {
             $sql = "SELECT * FROM users";
         } else {
-            $sql = "SELECT * FROM users WHERE username LIKE '" . $username . "' OR first_name LIKE '" . $first_name . "' OR last_name LIKE '" . $last_name . "' ";
+            $sql = "SELECT * FROM users WHERE username LIKE '$username' OR first_name LIKE '$first_name' OR last_name LIKE '$last_name' ";
         }
         //var_dump($sql);
         $result = $conn->query($sql);
