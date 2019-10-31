@@ -1,10 +1,3 @@
-<!-- <?php
-
-        echo $_GET["username"] . "\n";
-        echo $_GET["first_name"] . "\n";
-        echo $_GET["last_name"] . "\n";
-
-        ?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +25,16 @@
     <div class="container">
         <h2>Lijst van gebruikers</h2>
         <p><strong>U zocht op:</strong></p>
-        <p>Username: <?= $_GET["username"] ?></p>
-        <p>Voornaam: <?= $_GET["first_name"] ?></p>
-        <p>Achternaam: <?= $_GET["last_name"] ?></p>
 
         <?php
+
+        $username = trim( htmlspecialchars($_GET["username"]) );
+        $first_name = trim( htmlspecialchars($_GET["first_name"]) );
+        $last_name = trim( htmlspecialchars($_GET["last_name"]) );
+
+        echo "<p>Username: {$username}</p>";
+        echo "<p>Voornaam: {$first_name}</p>";
+        echo "<p>Achternaam: {$last_name}</p>";
 
         // Create connection
         $conn = new mysqli("localhost", "root", "", "kletskoek");
@@ -45,12 +43,12 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        if ($_GET["username"] == "" && $_GET["first_name"] == "" && $_GET["last_name"] == "") {
+        if ($username == "" && $first_name == "" && $last_name == "") {
             $sql = "SELECT * FROM users";
         } else {
-            $sql = "SELECT * FROM users WHERE username LIKE '" . $_GET["username"] . "' OR first_name LIKE '" . $_GET["first_name"] . "' OR last_name LIKE '" . $_GET["last_name"] . "' ";
+            $sql = "SELECT * FROM users WHERE username LIKE '" . $username . "' OR first_name LIKE '" . $first_name . "' OR last_name LIKE '" . $last_name . "' ";
         }
-        var_dump($sql);
+        //var_dump($sql);
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             echo "<table class=\"table table-striped\">";
@@ -64,6 +62,7 @@
                 echo "<td>" . $row['first_name'] . "</td>";
                 echo "<td>" . $row['last_name'] . "</td>";
                 echo "<td>" . $row['birth_date'] . "</td>";
+                echo "<td><a href = \"edituser.php?id={$row['id']}\" class=\"btn btn-info\" role=\"button\">Edit</a></td>";
                 echo "</tr>";
             }
             echo "</table>";
