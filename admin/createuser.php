@@ -14,10 +14,10 @@ $success = FALSE;
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = $_POST["username"];
+    $username = trim( htmlspecialchars($_POST["username"]) );
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-    $first_name = $_POST["first_name"];
-    $last_name = $_POST["last_name"];
+    $first_name = trim( htmlspecialchars($_POST["first_name"]) );
+    $last_name = trim( htmlspecialchars($_POST["last_name"]) );
     $birth_date = $_POST["birth_date"];
     $member_since = date("Y/m/d");
 
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($stmt->errno === 1062) {
             $error_message = "Username {$username} bestaat al!\n";
         } else {
-            echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $error_message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
         }
     } else {
         $success = TRUE;
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
 
     if ($success === TRUE) {
-        $sql = "UPDATE users SET birth_date= \"{$birth_date}\", member_since = \"{$member_since}\" WHERE username = \"{$username}\"";
+        $sql = "UPDATE users SET birth_date= '{$birth_date}', member_since = '{$member_since}' WHERE username = '{$username}'";
         if ($conn->query($sql) === TRUE) {
             $general_message =  "User {$username} succesvol aangemaakt\n";
             $username = "";
