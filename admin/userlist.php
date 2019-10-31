@@ -67,7 +67,7 @@
             }
             echo "</table>";
         } else {
-            echo "0 resultaten";
+            echo "<b>0 resultaten</b><br><br>";
         }
         $conn->close();
         ?>
