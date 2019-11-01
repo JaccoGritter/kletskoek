@@ -1,26 +1,46 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require 'checkifdbexists.php';
 
-// Check if database exists
-$sql = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'kletskoek';";
-$result = $conn->query($sql);
-if ($result -> num_rows > 0) {
-    echo "Database bestaat al!";
-} else {
-    echo "Database bestaat nog niet.<br>";
+
+
+// function kletskoekExists() {
+//     global $servername, $username, $password;
+//     // Create connection
+//     $conn = new mysqli($servername, $username, $password);
+//     // Check connection
+//     if ($conn->connect_error) {
+//         die("Connection failed: " . $conn->connect_error);
+//     }
+
+//     // Check if database exists
+//     $sql = "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'kletskoek';";
+//     $result = $conn->query($sql);
+//     if ($result->num_rows > 0) {
+//         return TRUE;
+//     } else {
+//         return FALSE;
+//     }
+//     $conn->close();
+// }
+
+
+function createKletskoek() {
+
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
     // Create database
     $sql = "CREATE DATABASE IF NOT EXISTS kletskoek;";
     if ($conn->query($sql) === TRUE) {
-        echo "Database kletskoek created successfully <br>";
+        echo "Database kletskoek created successfully\n";
         // Create user table
         $conn = new mysqli($servername, $username, $password, "kletskoek");
         $sql = "CREATE TABLE users (
@@ -35,18 +55,18 @@ if ($result -> num_rows > 0) {
             UNIQUE (username)
         );";
         if ($conn->query($sql) === TRUE) {
-        echo "User table created succesfully";
+            echo "User table created succesfully\n";
         } else {
             echo "Error creating user table: " . $conn->error;
         }
     } else {
         echo "Error creating database: " . $conn->error;
     }
+    $conn->close();
 }
 
-
-$conn->close();
-?>
-
-<br>
-<a href="admin.php">Terug naar admin index</a>
+if (kletskoekExists()) {
+    echo "Database bestaat al!!";
+} else {
+    createKletskoek();
+}
