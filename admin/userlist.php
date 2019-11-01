@@ -77,3 +77,4 @@
         <a href="admin.php" class="btn btn-info" role="button">Terug naar admin pagina</a>
     </div>
 </body>
+</html>
