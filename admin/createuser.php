@@ -5,6 +5,7 @@ $general_message = "";
 $error_message = "";
 
 $username = "";
+$email = "";
 $password = "";
 $first_name = "";
 $last_name = "";
@@ -15,6 +16,7 @@ $success = FALSE;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim( htmlspecialchars($_POST["username"]) );
+    $email = trim( htmlspecialchars($_POST["email"]) );
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $first_name = trim( htmlspecialchars($_POST["first_name"]) );
     $last_name = trim( htmlspecialchars($_POST["last_name"]) );
@@ -30,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (username, password, first_name, last_name) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $username, $password, $first_name, $last_name);
+    $stmt = $conn->prepare("INSERT INTO users (username, email, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $username, $email, $password, $first_name, $last_name);
 
     if (!$stmt->execute()) {
         if ($stmt->errno === 1062) {
-            $error_message = "Username {$username} bestaat al!\n";
+            $error_message = "Username {$username} of e-mailadres {$email} bestaat al! {$stmt->error}";
         } else {
             $error_message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
         }
@@ -50,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($conn->query($sql) === TRUE) {
             $general_message =  "User {$username} succesvol aangemaakt\n";
             $username = "";
+            $email = "";
             $first_name = "";
             $last_name = "";
             $birth_date = "";
@@ -94,6 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form action="" method="POST">
             <div class="form-group">
                 Username: <input type="text" class="form-control" name="username" value="<?= $username ?>" required>
+            </div>
+            <div class="form-group">
+                E-mailadres: <input type="text" class="form-control" name="email" value="<?= $email ?>" required>
             </div>
             <div class="form-group">
                 Wachtwoord: <input type="password" class="form-control" name="password" required>

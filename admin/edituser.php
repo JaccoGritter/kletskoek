@@ -14,11 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
 
     $sql = "SELECT * FROM users WHERE id=" . $id;
 
-    //var_dump($sql);
     $result = $conn->query($sql);
-    //var_dump($result);
     $user = $result->fetch_assoc();
     $username = $user["username"];
+    $email = $user["email"];
     $first_name = $user["first_name"];
     $last_name = $user["last_name"];
     $birth_date = $user["birth_date"];
@@ -29,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     // formulier is gepost
     $id = $_POST["id"];
     $username = trim( htmlspecialchars($_POST["username"]) );
+    $email = trim( htmlspecialchars($_GET["email"]) );
     $first_name = trim( htmlspecialchars($_POST["first_name"]) );
     $last_name = trim( htmlspecialchars($_POST["last_name"]) );
     $birth_date = trim( htmlspecialchars($_POST["birth_date"]) );
@@ -45,11 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
     
     if ($conn->query($sql) === TRUE) {
         $general_message =  "User {$username} succesvol gewijzigd\n";
-        // $username = "";
-        // $first_name = "";
-        // $last_name = "";
-        // $birth_date = "";
-        // $member_since = "";
     } else {
         $error_message = "Error creating user table: " . $conn->error;
     }
@@ -90,6 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] != "POST") {
             </div>
             <div class="form-group">
                 Username: <input type="text" class="form-control" name="username" value="<?= $username ?>" readonly>
+            </div>
+            <div class="form-group">
+                E-mailadres: <input type="text" class="form-control" name="email" value="<?= $email ?>" required>
             </div>
             <div class="form-group">
                 Voornaam:<input type="text" class="form-control" name="first_name" value="<?= $first_name ?>">
