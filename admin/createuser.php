@@ -1,5 +1,5 @@
 <?php
-require '..\classes\user.php';
+//require '..\classes\user.php';
 
 $general_message = "";
 $error_message = "";
@@ -88,7 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <body>
     <div class="container">
-        <h1>Maak een gebruiker aan</h1>
+        <h1>Voeg gebruiker toe</h1>
+        <h5>Maak een nieuwe gebruiker aan</h5>
         <br>
         <form action="" method="POST">
             <div class="form-group">
