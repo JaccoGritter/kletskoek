@@ -1,5 +1,6 @@
 <?php
 //require '..\classes\user.php';
+require 'checkifdbexists.php';
 
 $general_message = "";
 $error_message = "";
@@ -14,7 +15,7 @@ $member_since = "";
 $success = FALSE;
 
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && kletskoekExists() ) {
     $username = trim( htmlspecialchars($_POST["username"]) );
     $email = trim( htmlspecialchars($_POST["email"]) );
     $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -25,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // DIT MOET IN EEN APARTE FILE/FUNCTIE
     // Create connection
-    $conn = new mysqli("localhost", "root", "", "KletsKoek");
+    $conn = new mysqli("localhost", "root", "", "kletskoek");
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
